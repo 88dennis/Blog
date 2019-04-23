@@ -8,7 +8,7 @@ var app = express();
 
 var PORT = process.env.PORT || 3000;
 
-var databaseURL = "moviesdb";
+var databaseURL = "moviesblogdb";
 var collections = ["scrapedMovies"];
 
 var db = mongojs(databaseURL, collections);
@@ -24,14 +24,8 @@ app.get("/", function(req, res){
 res.send("Hello World")
 })
 
-//SCRAPING A WEBSITE
-//-----------------------------------------------------------------------------------------------
-// First, tell the console what server.js is doing
-console.log("\n***********************************\n" +
-            "Grabbing every thread name and link\n" +
-            "from reddit's webdev board:" +
-            "\n***********************************\n");
 
+// First, tell the console what server.js is doing
 // Making a request via axios for reddit's "webdev" board. The page's HTML is passed as the callback's third argument
 // Retrieve data from the db
 app.get("/all", function(req, res) {
@@ -51,12 +45,14 @@ app.get("/all", function(req, res) {
   // Scrape data from one site and place it into the mongodb db
   app.get("/movies", function(req, res) {
     // Make a request via axios for the news section of `ycombinator`
-    axios.get("https://www.nytimes.com/section/movies").then(function(response) {
+
+    //SCRAPING A WEBSITE
+//-----------------------------------------------------------------------------------------------
+    axios.get("https://www.imdb.com/").then(function(response) {
       // Load the html body from axios into cheerio
       var $ = cheerio.load(response.data);
-      console.log(response.data)
       // For each element with a "title" class
-      $("h2.e4e4i5l1").each(function(i, element) {
+      $("p.blurb").each(function(i, element) {
   
         // Save the text and href of each link enclosed in the current element
         var title = $(element).children("a").text();
