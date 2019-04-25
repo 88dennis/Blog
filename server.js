@@ -10,7 +10,7 @@ var app = express();
 
 var PORT = process.env.PORT || 4000;
 
-var databaseURL = "moviesblogdb";
+var databaseURL = process.env.MONGODB_URI || "moviesblogdb";
 var collections = ["scrapedMovies"];
 
 var db = mongojs(databaseURL, collections);
