@@ -3,10 +3,12 @@ var exhbs = require("express-handlebars");
 var mongojs = require("mongojs");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var logger = require("morgan");
+var path = require("path");
 
 var app = express();
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 4000;
 
 var databaseURL = "moviesblogdb";
 var collections = ["scrapedMovies"];
@@ -16,43 +18,69 @@ db.on("error", function(error){
     console.log("database error:", error);
 });
 
-// app.use(express.static("public"));
+
+
+// Configure our app for morgan and body parsing with express.json and express.urlEncoded
+app.use(logger("dev"));
+//ACCESS THE PUBLIC FOLDER
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
 // require("./routes/apiRoutes.js")(app);
 // require("./routes/htmlRoutes.js")(app);
 
-app.get("/", function(req, res){
-res.send("Hello World")
-})
+// APIS
+app.get("/savedMovies", function(req, res) {
+  // Go into the mongo collection, and find all docs where "read" is true
+  db.scrapedMovies.find({ saved: true }, function(error, found) {
+    // Show any errors
+    if (error) {
+      console.log(error);
+    }
+    else {
+      // Otherwise, send the books we found to the browser as a json
+      res.json(found);      
+    }
+  });
+});
 
 
 // First, tell the console what server.js is doing
 // Making a request via axios for reddit's "webdev" board. The page's HTML is passed as the callback's third argument
 // Retrieve data from the db
-app.get("/all", function(req, res) {
-    // Find all results from the scrapedMovies collection in the db
-    db.scrapedMovies.find({}, function(error, found) {
-      // Throw any errors to the console
-      if (error) {
-        console.log(error);
-      }
-      // If there are no errors, send the data to the browser as json
-      else {
-        res.json(found);
-      }
-    });
-  });
+
+// app.get("/all", function(req, res) {
+//     // Find all results from the scrapedMovies collection in the db
+   
+//   });
   
+
   // Scrape data from one site and place it into the mongodb db
-  app.get("/movies", function(req, res) {
+  app.get("/scrape", function(req, res) {
     // Make a request via axios for the news section of `ycombinator`
+    
+    // db.scrapedMovies.remove({}, function(error, response) {
+    //   // Log any errors to the console
+    //   if (error) {
+    //     console.log(error);
+    //     res.send(error);
+    //   }
+    //   else {
+    //     // Otherwise, send the mongojs response to the browser
+    //     // This will fire off the success function of the ajax request
+    //     console.log(response);
+    //     // res.send(response);
+    //   }
+    // });
 
     //SCRAPING A WEBSITE
 //-----------------------------------------------------------------------------------------------
-    axios.get("https://www.imdb.com/").then(function(response) {
+    axios.get("http://www.themovieblog.com/").then(function(response) {
       // Load the html body from axios into cheerio
       var $ = cheerio.load(response.data);
       // For each element with a "title" class
-      $("p.blurb").each(function(i, element) {
+      $("h2.genpost-entry-title").each(function(i, element) {
   
         // Save the text and href of each link enclosed in the current element
         var title = $(element).children("a").text();
@@ -62,8 +90,9 @@ app.get("/all", function(req, res) {
         if (title && link) {
           // Insert the data in the scrapedData db
           db.scrapedMovies.insert({
-            title: title,
-            link: link
+            title: title, 
+            link: link,
+            saved: false
           },
           function(err, inserted) {
             if (err) {
@@ -73,6 +102,7 @@ app.get("/all", function(req, res) {
             else {
               // Otherwise, log the inserted data
               console.log(inserted);
+  
             }
           });
         }
@@ -80,9 +110,90 @@ app.get("/all", function(req, res) {
     });
   
     // Send a "Scrape Complete" message to the browser
-    res.send("Scrape Complete");
+
+    db.scrapedMovies.find({}, function(error, found) {
+      // Throw any errors to the console
+      if (error) {
+        console.log(error);
+      }
+      // If there are no errors, send the data to the browser as json
+      else {
+        res.json(found);
+        
+      }
+    });
+    
   });
-  
+
+// Mark a book as having been read
+app.put("/savemovieblog/:id", function(req, res) {
+  // console.log("DENNISMSARMIENTO");
+  // console.log(req.body);
+
+  db.scrapedMovies.update(
+    {
+      _id: mongojs.ObjectId(req.params.id)
+    },
+    {
+      $set: {
+        saved: true
+      }
+    },
+   
+    function(error, edited) {
+      // show any errors
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the result of our update to the browser
+        console.log(edited);
+        console.log("this id")
+        console.log(req.params.id)
+        res.send(edited);
+      }
+    }
+  );
+});
+
+
+app.get("/deleteblog/:id", function(req, res) {
+  // Remove a note using the objectID
+  db.scrapedMovies.remove(
+    {
+      _id: mongojs.ObjectID(req.params.id)
+    },
+    function(error, removed) {
+      // Log any errors from mongojs
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the mongojs response to the browser
+        // This will fire off the success function of the ajax request
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  );
+});
+
+
+// app.get("/read", function(req, res) {
+//   // Go into the mongo collection, and find all docs where "read" is true
+//   db.books.find({ read: true }, function(error, found) {
+//     // Show any errors
+//     if (error) {
+//       console.log(error);
+//     }
+//     else {
+//       // Otherwise, send the books we found to the browser as a json
+//       res.json(found);
+//     }
+//   });
+
 //---------------------------------------------------------------------------------------------------------------
 
 
