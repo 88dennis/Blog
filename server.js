@@ -92,7 +92,8 @@ app.get("/savedMovies", function(req, res) {
           db.scrapedMovies.insert({
             title: title, 
             link: link,
-            saved: false
+            saved: false,
+            note: ""
           },
           function(err, inserted) {
             if (err) {
@@ -180,6 +181,34 @@ app.get("/deleteblog/:id", function(req, res) {
   );
 });
 
+
+app.get("/find/:id", function(req, res) {
+  // When searching by an id, the id needs to be passed in
+  // as (mongojs.ObjectId(IdYouWantToFind))
+
+  // Find just one result in the notes collection
+  db.scrapedMovies.findOne(
+    {
+      // Using the id in the url
+      _id: mongojs.ObjectId(req.params.id)
+    },
+    function(error, found) {
+      // log any errors
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the note to the browser
+        // This will fire off the success function of the ajax request
+        console.log("DENFOUND");
+        console.log(found);
+
+        res.send(found);
+      }
+    }
+  );
+});
 
 // app.get("/read", function(req, res) {
 //   // Go into the mongo collection, and find all docs where "read" is true
