@@ -23,13 +23,23 @@ $("#scrapebtnid").on("click", function() {
         
         var titleDiv = $("<div>");
         titleDiv.attr("class", "titleDiv")
-        titleDiv.prepend(data[i].title);
         savedDivwrap.prepend(titleDiv);
+
+        var titleP = $("<p>");
+        titleP.attr("class", "titleP")
+        titleP.prepend(data[i].title);
+        titleDiv.prepend(titleP);
+
+
 
         var linkDiv = $("<div>");
         linkDiv.attr("class", "linkDiv")
-        linkDiv.prepend(data[i].link);
-        savedDivwrap.prepend(linkDiv);
+        savedDivwrap.append(linkDiv);
+
+        var anchorlink = $("<a>");
+        anchorlink.attr("href", data[i].link)
+        anchorlink.text("Click Me!");
+        linkDiv.append(anchorlink);
 
         var saveblogbtn = $("<button>");
         saveblogbtn.attr("class", "saveblogbtn");

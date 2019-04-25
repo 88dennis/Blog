@@ -16,13 +16,23 @@ function savedBlogs() {
         
         var titleDiv2 = $("<div>");
         titleDiv2.attr("class", "titleDiv")
-        titleDiv2.prepend(data[i].title);
+        
         savedtruewrap.prepend(titleDiv2);
+
+        var titleP2 = $("<div>");
+        titleP2.attr("class", "titleDiv")
+        titleP2.prepend(data[i].title);
+        titleDiv2.prepend(titleP2);
 
         var linkDiv2 = $("<div>");
         linkDiv2.attr("class", "linkDiv")
-        linkDiv2.prepend(data[i].link);
-        savedtruewrap.prepend(linkDiv2);
+        
+        savedtruewrap.append(linkDiv2);
+
+        var anchorlink2 = $("<a>");
+        anchorlink2.attr("href", data[i].link)
+        anchorlink2.text("Click Me!");
+        linkDiv2.append(anchorlink2);
 //----------------------------------------
         var deletebtn = $("<button>");
         deletebtn.attr("class", "deletebtn");
