@@ -210,6 +210,39 @@ app.get("/find/:id", function(req, res) {
   );
 });
 
+
+app.post("/update/:id", function(req, res) {
+  // When searching by an id, the id needs to be passed in
+  // as (mongojs.ObjectId(IdYouWantToFind))
+
+  // Update the note that matches the object id
+  db.scrapedMovies.update(
+    {
+      _id: mongojs.ObjectId(req.params.id)
+    },
+    {
+      // Set the title, note and modified parameters
+      // sent in the req body.
+      $set: {
+        note: req.body.note,
+      }
+    },
+    function(error, edited) {
+      // Log any errors from mongojs
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the mongojs response to the browser
+        // This will fire off the success function of the ajax request
+        console.log(edited);
+        res.send(edited);
+      }
+    }
+  );
+});
+
 // app.get("/read", function(req, res) {
 //   // Go into the mongo collection, and find all docs where "read" is true
 //   db.books.find({ read: true }, function(error, found) {
