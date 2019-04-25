@@ -1,5 +1,6 @@
 body {
             margin:0;
+            background: -webkit-gradient(linear, left top, left bottom, from(rgb(65, 62, 62)), to(black)) fixed;
         }
 
  #savedblogs {
@@ -11,9 +12,14 @@ body {
        margin-bottom: 20px;
    }
 
-   .box::-webkit-scrollbar {
+   ::-webkit-scrollbar { 
+    display: none; 
+}
+   /* .box::-webkit-scrollbar {
        display: none;
-   }
+   } */
+
+   a:visited{ color: gray };
 
    header {
        height: 200px;
@@ -129,13 +135,16 @@ margin-top: 50px;
     border-width: 1px;
     border-color: black;
     width: 50%;
-    border-radius: 50px;
+    border-radius: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 20px;
     font-size: 15px;
     margin-right: 20px;
     margin-left: 20px;
+    background-color: transparent;
+    color: white;
+    border-color: white;
 }
 input:focus,
 button:focus,
