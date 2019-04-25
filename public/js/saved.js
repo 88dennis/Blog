@@ -67,6 +67,7 @@ function savedBlogs() {
 
 addnotebtn.on("click", function() {
   $("#notesmodalid").show()
+  
         var selected = $(this);
         // Make an ajax call to find the note
         // This uses the data-id of the p-tag, which is linked to the specific note
@@ -82,7 +83,7 @@ addnotebtn.on("click", function() {
         var notesdivmodal = $("<div>");
         notesdivmodal.attr("class", "notesdivmodal")
 
-$("#notesmodalid").prepend(notesdivmodal);
+        $("#notesmodalid").append(notesdivmodal);
 
         var labelpar = $("<p>");
         labelpar.text("NOTES FOR: " + data._id);
@@ -98,18 +99,21 @@ notesaveddiv.text(data.note);
         inputfield.attr("type", "input");
         inputfield.attr("class", "inputfield");
         notesdivmodal.append(inputfield);
+        var buttodsubclosediv = $("<div>");
+        buttodsubclosediv.attr("class", "buttodsubclosediv");
+        notesdivmodal.append(buttodsubclosediv);
 
         var submitnotebtn = $("<button>");
         submitnotebtn.attr("class", "submitnotebtn");
-        submitnotebtn.text("ADDNOTE");
+        submitnotebtn.text("Send New Comment");
         submitnotebtn.attr("data-id", data._id);
-        notesdivmodal.append(submitnotebtn);
+        buttodsubclosediv.append(submitnotebtn);
 
         var closenotebtn = $("<button>");
         closenotebtn.attr("class", "closenotebtn");
         closenotebtn.text("CLOSE");
         closenotebtn.attr("data-id", data._id);
-        notesdivmodal.append(closenotebtn);
+        buttodsubclosediv.append(closenotebtn);
 
 closenotebtn.on("click", function() {
     console.log("dendededede")
@@ -145,7 +149,9 @@ submitnotebtn.on("click", function() {
     // On a successful call, clear the #results section
     success: function(data) {
 
-notesaveddiv.text(data.note);
+notesaveddiv.text("Comment: " + data.note);
+
+
     
     }
   });

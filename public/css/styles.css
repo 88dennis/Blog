@@ -61,7 +61,7 @@ margin-top: 50px;
        overflow-y: hidden;
        white-space: nowrap;
        margin-bottom: 20px;
-       margin-top: 100px;
+       margin-top: 50px;
    }
 
    .box::-webkit-scrollbar {
@@ -102,19 +102,46 @@ margin-left: 0;
 margin-top: 50px;
 }
 
+.buttodsubclosediv {
+    width: 50%;
+    display:flex;
+    justify-content: space-between;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
 
-
-
+.notesaveddiv {
+    margin-left: 30px;
+}
 
    
-.notesaveddiv {
+.notesmsgnew {
 
     border-style: solid;
-    height: 100px;
+    height: 50px;
     border-color: black;
     width: 50%;
 }
 
+.inputfield {
+    border-style: solid;
+    height: 20px;
+    border-width: 1px;
+    border-color: black;
+    width: 50%;
+    border-radius: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    font-size: 15px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+input:focus,
+button:focus,
+select:focus {
+  outline: none;
+}
 .container1 {
 
     display: flex;
