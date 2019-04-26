@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+$("#homebtnid2").on("click", function() {
+
+  console.log("Dennissasaasa")
+  window.location = "/index.html";
+
+});
+
 function savedBlogs() {
     $("#savedblogs2").empty();
 
@@ -15,17 +22,17 @@ function savedBlogs() {
         $("#savedblogs2").prepend(savedtruewrap);
         
         var titleDiv2 = $("<div>");
-        titleDiv2.attr("class", "titleDiv")
+        titleDiv2.attr("class", "titleDiv2")
         
         savedtruewrap.prepend(titleDiv2);
 
         var titleP2 = $("<div>");
-        titleP2.attr("class", "titleDiv")
+        titleP2.attr("class", "titleP2")
         titleP2.prepend(data[i].title);
         titleDiv2.prepend(titleP2);
 
         var linkDiv2 = $("<div>");
-        linkDiv2.attr("class", "linkDiv")
+        linkDiv2.attr("class", "linkDiv2")
         
         savedtruewrap.append(linkDiv2);
 
@@ -36,7 +43,7 @@ function savedBlogs() {
 //----------------------------------------
         var deletebtn = $("<button>");
         deletebtn.attr("class", "deletebtn");
-        deletebtn.text("DELETE");
+        deletebtn.text("delete");
         deletebtn.attr("data-id", data[i]._id);
         savedtruewrap.append(deletebtn);
 
@@ -61,7 +68,7 @@ function savedBlogs() {
 
  var addnotebtn = $("<button>");
         addnotebtn.attr("class", "addnotebtn");
-        addnotebtn.text("ADD NOTES");
+        addnotebtn.text("add notes");
         addnotebtn.attr("data-id", data[i]._id);
         savedtruewrap.append(addnotebtn);
 
@@ -111,7 +118,7 @@ notesaveddiv.text(data.note);
 
         var closenotebtn = $("<button>");
         closenotebtn.attr("class", "closenotebtn");
-        closenotebtn.text("CLOSE");
+        closenotebtn.text("close");
         closenotebtn.attr("data-id", data._id);
         buttodsubclosediv.append(closenotebtn);
 
