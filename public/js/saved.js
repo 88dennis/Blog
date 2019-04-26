@@ -97,11 +97,11 @@ addnotebtn.on("click", function() {
         labelpar.attr("class", "labelpar");
         notesdivmodal.prepend(labelpar);
 
-var notesaveddiv = $("<div>");
+        var notesaveddiv = $("<div>");
         
         notesaveddiv.attr("class", "notesaveddiv");
         notesdivmodal.append(notesaveddiv);
-notesaveddiv.text(data.note);
+        notesaveddiv.text(data.note);
         var inputfield = $("<input>");
         inputfield.attr("type", "input");
         inputfield.attr("class", "inputfield");
@@ -122,10 +122,10 @@ notesaveddiv.text(data.note);
         closenotebtn.attr("data-id", data._id);
         buttodsubclosediv.append(closenotebtn);
 
-closenotebtn.on("click", function() {
-    console.log("dendededede")
-  window.location = "/saved.html";
-  });
+        closenotebtn.on("click", function() {
+            console.log("dendededede")
+          window.location = "/saved.html";
+          });
 //----------------------------------
 submitnotebtn.on("click", function() {
   
@@ -136,73 +136,28 @@ submitnotebtn.on("click", function() {
     data: {
       note: $(".inputfield").val()
     },
-    // On successful call
+
     success: function(data) {
 
-
-      // Clear the inputs
       $(".inputfield").val("");
-    //   $("#title").val("");
-    //   // Revert action button to submit
-    //   $("#action-button").html("<button id='make-new'>Submit</button>");
-    //   // Grab the results from the db again, to populate the DOM
-    //   getResults();
 
-
-  // Make an AJAX GET request to delete the notes from the db
   $.ajax({
     type: "GET",
     url: "/find/" + selected.attr("data-id"),
-    // On a successful call, clear the #results section
+
     success: function(data) {
 
 notesaveddiv.text("Comment: " + data.note);
-
-
-    
     }
   });
-
-
-    
     }
   });
 });
-//----------------------------------------
-
-        
     }
   });
-
-
-
 });
-
-
-
-
-//         addnotebtn.on("click", function() {
-//             // $("#notesmodalid").show()
-//           console.log("DENNISSARMS")
-//           var thisId = $(this).attr("data-id");
-//           $.ajax({
-//             type: "GET",
-//             url: "/find/" + thisId
-//           })
-
-
-
-
-// //   var deleteblogitem = $(this).parents("div.savedtruewrap");
-// //           deleteblogitem.remove();
-          
-//         //   $(".tbody").prepend(savedblogitem);
-
-//         });
-//----------------------------------------------------------------------------------
-
       }
-      // $("#read").prepend("<tr><th>Title</th><th>Author</th><th>Read/Unread</th></tr>");
+
     });
 
 
