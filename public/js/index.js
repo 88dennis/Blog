@@ -60,12 +60,11 @@ $("#scrapebtnid").on("click", function() {
   var savedblogitem = $(this).parents("div.savedDivwrap");
           savedblogitem.remove();
           
-  //         $(".tbody").prepend(savedblogitem);
 
         });
 
       }
-      // $("#read").prepend("<tr><th>Title</th><th>Author</th><th>Read/Unread</th></tr>");
+
     });
   }
 

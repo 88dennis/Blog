@@ -60,7 +60,6 @@ function savedBlogs() {
   var deleteblogitem = $(this).parents("div.savedtruewrap");
           deleteblogitem.remove();
           
-        //   $(".tbody").prepend(savedblogitem);
 
         });
 
@@ -76,8 +75,7 @@ addnotebtn.on("click", function() {
   $("#notesmodalid").show()
   
         var selected = $(this);
-        // Make an ajax call to find the note
-        // This uses the data-id of the p-tag, which is linked to the specific note
+ 
         $.ajax({
             type: "GET",
             url: "/find/" + selected.attr("data-id"),
